@@ -1,0 +1,32 @@
+
+const express=require('express')
+
+const stuController=require('../controller/stuController')
+const multerConfig=require('../middleware/stuMiddleware')
+const bookController=require('../controller/bookController')
+const reserveController=require("../controller/reserveController")
+const jwtMiddleware=require('../middleware/jwtMiddleware')
+
+const router=express.Router()
+
+router.post("/reg",multerConfig.single("profile"),stuController.register)
+router.post("/login",stuController.login)
+router.post('/forgot',stuController.verifyEmail)
+router.put('/reset/:id',stuController.resetPassword)
+router.get('/getAdmin/:id',stuController.update)
+router.put("/editAdmin/:uid",multerConfig.single('profile'),stuController.editAdmin)
+router.post("/addbook",jwtMiddleware,multerConfig.single("cover"),bookController.addBook)
+router.get("/viewusers",stuController.viewusers)
+router.get("/viewbooks",bookController.bookview)
+router.delete("/del/:id",jwtMiddleware,bookController.deletebook)
+router.put('/viewbooks/:uid',jwtMiddleware,multerConfig.single('cover'),bookController.updatebook)
+router.get("/studentviewbooks",bookController.viewbooks)
+router.post("/reserve",reserveController.reservebook)
+router.get("/getdetails/:id",reserveController.getdetails)
+router.get("/decrease/:id",reserveController.decrease)
+router.get("/history/:id",reserveController.history)
+router.put("/return/:id",reserveController.return)
+router.get("/reserves",reserveController.reserveDetails)
+router.get("/approve/:id",reserveController.approved)
+router.get("/increase/:id",reserveController.increase)
+module.exports=router    
