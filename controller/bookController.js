@@ -76,14 +76,14 @@ exports.deletebook=async(req,res)=>{
 
 exports.updatebook=async(req,res)=>{
     console.log("inside edit book details")
-    const {id,title,author,category,description,number}=req.body
-    console.log(`${id} ${title}`)
+    const {id,title,author,category,description,number,userId}=req.body
+    console.log(`${id} ${userId}`)
     const {uid}=req.params
     const uploadFile=req.file?req.file.filename:req.body.cover
     console.log(uid)
     
     try{
-        const result=await books.findOneAndUpdate({_id:uid},{id,title,author,category,description,number,cover:uploadFile})
+        const result=await books.findOneAndUpdate({_id:uid},{id,title,author,category,description,number,cover:uploadFile,userId})
         console.log(result)
         res.status(200).json(result)
     }
